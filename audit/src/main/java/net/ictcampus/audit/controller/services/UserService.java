@@ -4,6 +4,7 @@ import net.ictcampus.audit.controller.repositories.UserRepository;
 import net.ictcampus.audit.model.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -12,11 +13,13 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
     public User findById(Integer id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(EntityNotFoundException::new);
@@ -30,7 +33,7 @@ public class UserService {
         Iterable<User> users = findAll();
         for (User u : users) {
             if (u.getId().equals(user.getId())) {
-                //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+                user.setPasswort(bCryptPasswordEncoder.encode(user.getPasswort()));
                 userRepository.save(user);
                 return;
             }
@@ -39,7 +42,7 @@ public class UserService {
     }
 
     public void signUp(User user) {
-        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPasswort(bCryptPasswordEncoder.encode(user.getPasswort()));
         userRepository.save(user);
     }
 
