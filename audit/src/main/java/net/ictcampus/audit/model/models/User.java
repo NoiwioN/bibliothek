@@ -1,36 +1,29 @@
 package net.ictcampus.audit.model.models;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Kunde {
-    @Id
+public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_kunde;
-    private String name;
+    @Id
+    private Integer id;
     private String vorname;
+    private String nachname;
     private String email;
-    private String passwort;
     private String benutzername;
-    public Kunde (){}
+    private String passwort;
 
-    public Integer getId_kunde() {
-        return id_kunde;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId_kunde(Integer id_kunde) {
-        this.id_kunde = id_kunde;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getVorname() {
@@ -41,20 +34,20 @@ public class Kunde {
         this.vorname = vorname;
     }
 
+    public String getNachname() {
+        return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPasswort() {
-        return passwort;
-    }
-
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
     }
 
     public String getBenutzername() {
@@ -65,4 +58,11 @@ public class Kunde {
         this.benutzername = benutzername;
     }
 
+    public String getPasswort() {
+        return passwort;
+    }
+
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
+    }
 }
