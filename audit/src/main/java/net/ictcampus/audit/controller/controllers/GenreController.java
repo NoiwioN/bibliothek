@@ -1,7 +1,7 @@
 package net.ictcampus.audit.controller.controllers;
 
 import net.ictcampus.audit.controller.services.GenreService;
-import net.ictcampus.audit.model.models.Genre;
+import net.ictcampus.audit.model.models.Genres;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,19 +17,30 @@ public class GenreController {
     public GenreController(GenreService genreService){
         this.genreService = genreService;
     }
-
     @GetMapping
-    public Iterable<Genre> findByName(@RequestParam(required = false) String name){
+    public Iterable<Genres> findAll() {
         try {
-            if(name != null){
-                return genreService.findByName(name);
-            }else{
-                return genreService.findAll();
-            }
-        }catch (EntityNotFoundException e){
+            return genreService.findAll();
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "genre not found");
         }
-    }/*
+    }
+
+
+//        @GetMapping
+//    public Iterable<Genre> findByName(@RequestParam(required = false) String name){
+//        try {
+//            if(name != null){
+//                return genreService.findByName(name);
+//            }else{
+//                return genreService.findAll();
+//            }
+//        }catch (EntityNotFoundException e){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "genre not found");
+//        }
+//    }
+    /*
+
 
     @GetMapping(path = "{id}")
     public Genre findById(@PathVariable Integer id){
