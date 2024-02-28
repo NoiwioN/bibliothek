@@ -27,8 +27,7 @@ public class GenreService {
         return genre.orElseThrow(EntityExistsException::new);
     }
     public Iterable<Genre> findAll(){
-        Iterable<Genre> genres = genreRepository.findAll();
-        return genres;
+        return genreRepository.findAll();
     }
     public void insert(Genre genre){
         genreRepository.save(genre);
