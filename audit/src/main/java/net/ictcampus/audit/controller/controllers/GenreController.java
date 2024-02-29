@@ -63,7 +63,7 @@ public class GenreController {
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
             @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
-    public void insert(@RequestBody Genre genre){
+    public void insert(@Valid @RequestBody Genre genre){
         try {
             genreService.insert(genre);
         } catch (RuntimeException e){
