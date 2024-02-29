@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ictcampus.audit.controller.services.AudiobuchService;
 import net.ictcampus.audit.model.models.Audiobuch;
 import net.ictcampus.audit.model.models.Genre;
+import net.ictcampus.audit.model.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,29 +23,15 @@ public class AudiobuchController {
     public AudiobuchController(AudiobuchService audiobuchService){
         this.audiobuchService = audiobuchService;
     }
-    @GetMapping()
-    @Operation(summary = "Zeigt alle Audiobücher an")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Audiobücher were found successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "404", description = "Audiobuch could not be found",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
-    public Iterable<Audiobuch> findAll(){
-        try {
-            return audiobuchService.findAll();
-        } catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch not found");
-        }
-    }
     @GetMapping(path = "{id}")
-    @Operation(summary = "Zeigt ein Audiobuch an welches man mit seiner id suchen kann")
+    @Operation(summary = "Returns a specific Audiobuch")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Audiobuch was deleted successfully",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "404", description = "Audiobuch could not be found",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Genre.class))})})
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
+
+            @ApiResponse(responseCode = "404", description = "Audiobuch not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public Audiobuch findById(@PathVariable Integer id){
         try {
             return audiobuchService.findById(id);
@@ -52,14 +39,29 @@ public class AudiobuchController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch not found");
         }
     }
+    @GetMapping()
+    @Operation(summary = "Returns all Audiobücher")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "Audiobuch not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    public Iterable<Audiobuch> findAll(){
+        try {
+            return audiobuchService.findAll();
+        } catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch not found");
+        }
+    }
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Erstellt ein Audiobuch")
+    @Operation(summary = "Create a Genre")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Audiobuch was created successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "409", description = "Audiobuch already exists",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
+            @ApiResponse(responseCode = "201", description = "Genre created successfully"),
+            @ApiResponse(responseCode = "409", description = "Genre could not be created"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public void insert(@RequestBody Audiobuch audiobuch){
         try {
             audiobuchService.insert(audiobuch);

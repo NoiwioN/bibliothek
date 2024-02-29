@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ictcampus.audit.controller.services.GenreService;
 import net.ictcampus.audit.model.models.Genre;
+import net.ictcampus.audit.model.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,79 +24,80 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    @GetMapping
-    @Operation(summary = "Zeigt alle Genres an")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genres were found successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "404", description = "Genres could not be found",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
-    public Iterable<Genre> findAll(){
-        try {
-            return genreService.findAll();
-        }catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "genre not found");
-        }
-    }
     @GetMapping(path = "{id}")
-    @Operation(summary = "Zeigt ein Genre an welches man mit seiner id suchen kann")
+    @Operation(summary = "Gibt ein bestimmtes Genre zurück")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre was found successfully",
+            @ApiResponse(responseCode = "200", description = "Ergolgreich",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "404", description = "Genre could not be found",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
+
+            @ApiResponse(responseCode = "404", description = "Genre nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Verboten")
+    })
     public Genre findById(@PathVariable Integer id){
         try {
             return genreService.findById(id);
         } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre nicht gefunden");
+        }
+    }
+    @GetMapping
+    @Operation(summary = "Gibt ein alle Genres zurück")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Erfolgreich",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "Genres nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Verboten")
+    })
+    public Iterable<Genre> findAll(){
+        try {
+            return genreService.findAll();
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre nicht gefunden");
         }
     }
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Erstellt ein Genre")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Genre was created successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "409", description = "Genre could not be created, already exists",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
+            @ApiResponse(responseCode = "201", description = "Genre wurde erfolgreich erstellt"),
+            @ApiResponse(responseCode = "409", description = "Genre konnte nicht erstellt werden"),
+            @ApiResponse(responseCode = "403", description = "Verboten")
+    })
     public void insert(@RequestBody Genre genre){
         try {
             genreService.insert(genre);
         } catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Genre conflict");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Genre konnte nicht erstellt werden");
         }
     }
     @PutMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Aktualisiert ein Genre")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre was updated successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "409", description = "Genre could not be updated, already exists",
-                    content = @Content),
-            @ApiResponse(responseCode = "400", description = "Validation failed",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
+            @ApiResponse(responseCode = "204", description = "Genre wurde aktualisiert"),
+            @ApiResponse(responseCode = "409", description = "Genre konnte nicht aktualisiert werden"),
+            @ApiResponse(responseCode = "403", description = "Verboten")
+    })
     public void update(@RequestBody Genre genre){
         try {
             genreService.update(genre);
         } catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Genre conflict");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Genre konnte nicht aktualisiert werden");
         }
     }
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Löscht ein Genre nach seiner id")
+    @Operation(summary = "Deletes a Genre")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre was deleted successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "404", description = "Genre could not be found",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
+            @ApiResponse(responseCode = "204", description = "Genre wurde gelöscht"),
+            @ApiResponse(responseCode = "404", description = "Genre nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Verboten")
+    })
     public void deleteById(@PathVariable Integer id){
         try {
             genreService.deleteById(id);
         } catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Genre nicht gefunden");
         }
     }
 }
