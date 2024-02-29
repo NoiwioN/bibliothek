@@ -10,10 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.TimeZone;
 
-public class AudiobuchControllerTest {
-    private static final String JSON_ALL_MOVIES = "[{\"id\":1, \"name\": \"Movie1\", \"duration\": 120, \"genre\": { \"id\": 1, \"name\": \"Melodrama\"}}, " +
-            "{\"id\":2, \"name\": \"Movie2\", \"duration\": 120, \"genre\": { \"id\": 1, \"name\": \"Melodrama\"}}, "+
-            "{\"id\":3, \"name\": \"Movie3\", \"duration\": 120, \"genre\": { \"id\": 1, \"name\": \"Melodrama\"}}]";
+public class AudiobuchControllerTestjulia {
+    private static final String JSON_ALL_MOVIES = "[" +
+            "{\"id\":1, \"name\": \"Audiobuch1\", \"duration\": \"50000\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
+            "{\"id\":2, \"name\": \"Audiobuch2\", \"duration\": \"50000\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
+            "{\"id\":3, \"name\": \"Audiobuch3\", \"duration\": \"50000\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}]";
 
     @Autowired
     private MockMvc mockMvc;

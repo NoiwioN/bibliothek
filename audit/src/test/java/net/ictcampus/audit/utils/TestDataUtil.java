@@ -28,5 +28,3 @@ public class TestDataUtil {
         return audiobuecher;
     }
 }
-
-erstelle mir
