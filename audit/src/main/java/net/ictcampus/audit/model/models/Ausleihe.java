@@ -1,6 +1,8 @@
 package net.ictcampus.audit.model.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -19,9 +21,13 @@ public class Ausleihe {
     private User user;
 
 
+    @NotNull(message = "Ausleihdatum muss angegeben werden")
+    @NotBlank(message = "Ausleihdatum darf nicht leer sein")
     private Date ausleihdatum;
 
 
+    @NotNull(message = "Rückgabedatum muss angegeben werden")
+    @NotBlank(message = "Rückgabedatum darf nicht leer sein")
     private Date rueckgabedatum;
 
     public Ausleihe() {
