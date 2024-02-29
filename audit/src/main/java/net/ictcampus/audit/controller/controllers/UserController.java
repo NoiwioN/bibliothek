@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ictcampus.audit.controller.services.UserService;
+import net.ictcampus.audit.model.models.Ausleihe;
 import net.ictcampus.audit.model.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,9 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Gibt einen bestimmten Benutzer zurück")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "Benutzer wurde nicht gefunden"),
-            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
-            @ApiResponse(responseCode = "200", description = "Benutzer wurde gefunden",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))})
+            @ApiResponse(responseCode = "200", description = "User wurde gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Ausleihe.class))}),
+            @ApiResponse(responseCode = "404", description = "User wurde nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
     })
     public User findById(@PathVariable Integer id) {
         try {
@@ -46,16 +46,15 @@ public class UserController {
     @GetMapping
     @Operation(summary = "Gibt alle Benutzer zurück")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Benutzer wurden gefunden",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "Benutzer konnten nicht gefunden werden"),
+            @ApiResponse(responseCode = "200", description = "Benutzer wurden gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "Benutzer wurde nicht gefunden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
     })
     public Iterable<User> findAll() {
         try {
             return userService.findAll();
         } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benutzer konnten nicht gefunden werden");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benutzer wurde nicht gefunden");
         }
     }
 
@@ -63,17 +62,17 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Aktualisiert einen Benutzer")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Der Benutzer konnte aktualisiert werden"),
-            @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden"),
+            @ApiResponse(responseCode = "204", description = "Benutzer wurde aktualisiert"),
+            @ApiResponse(responseCode = "404", description = "Benutzer konnte nicht gefunden werden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
-            @ApiResponse(responseCode = "409", description = "Der Benutzer konnte nicht aktualisiert werden"),
+            @ApiResponse(responseCode = "409", description = "Benutzer konnte nicht aktualisiert werden"),
             @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
     public void update(@Valid @RequestBody User user) {
         try {
             userService.update(user);
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Der Benutzer konnte nicht aktualisiert werden");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Benutzer konnte nicht aktualisiert werden");
         }
     }
 
@@ -81,8 +80,8 @@ public class UserController {
     @Operation(summary = "Erstellt einen neuen Benutzer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Benutzer wurde erstellt"),
-            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
             @ApiResponse(responseCode = "409", description = "Benutzer konnte nicht erstellt werden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
             @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
     @ResponseStatus(HttpStatus.CREATED)

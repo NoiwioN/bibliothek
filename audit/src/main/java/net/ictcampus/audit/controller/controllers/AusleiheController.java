@@ -25,23 +25,6 @@ public class AusleiheController {
     public AusleiheController(AusleiheService ausleiheService) {
         this.ausleiheService = ausleiheService;
     }
-
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Gibt alle Ausleihen zurück")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ausleihen wurden gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Ausleihe.class))}),
-            @ApiResponse(responseCode = "404", description = "Ausleihen wurden nicht gefunden"),
-            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
-    })
-    public Iterable<Ausleihe> findAll() {
-        try {
-            return ausleiheService.findAll();
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ausleihen wurden nicht gefunden");
-        }
-    }
-
     @GetMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Gibt eine bestimmte Ausleihe zurück")
@@ -57,7 +40,21 @@ public class AusleiheController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ausleihe wurde nicht gefunden");
         }
     }
-
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Gibt alle Ausleihen zurück")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ausleihen wurden gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Ausleihe.class))}),
+            @ApiResponse(responseCode = "404", description = "Ausleihen wurden nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
+    })
+    public Iterable<Ausleihe> findAll() {
+        try {
+            return ausleiheService.findAll();
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ausleihen wurden nicht gefunden");
+        }
+    }
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Erstellt eine neue Ausleihe")
@@ -66,7 +63,6 @@ public class AusleiheController {
             @ApiResponse(responseCode = "409", description = "Ausleihe konnte nicht erstellt werden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
             @ApiResponse(responseCode="400", description = "Ungültiger Request")
-
     })
     public void insert(@Valid @RequestBody Ausleihe ausleihe) {
         try {
@@ -81,11 +77,11 @@ public class AusleiheController {
     @Operation(summary = "Aktualisiert eine Ausleihe")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Ausleihe wurde aktualisiert"),
-            @ApiResponse(responseCode = "409", description = "Ausleihe konnte nicht aktualisiert werden"),
+            @ApiResponse(responseCode = "404", description = "Ausleihe konnte nicht gefunden werden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
+            @ApiResponse(responseCode = "409", description = "Ausleihe konnte nicht aktualisiert werden"),
             @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
-
     public void update(@Valid @RequestBody Ausleihe ausleihe) {
         try {
             ausleiheService.update(ausleihe);

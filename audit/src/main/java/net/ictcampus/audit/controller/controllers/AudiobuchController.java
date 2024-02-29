@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ictcampus.audit.controller.services.AudiobuchService;
 import net.ictcampus.audit.model.models.Audiobuch;
+import net.ictcampus.audit.model.models.Ausleihe;
 import net.ictcampus.audit.model.models.Genre;
 import net.ictcampus.audit.model.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/audiobücher")
 public class AudiobuchController {
@@ -24,13 +27,11 @@ public class AudiobuchController {
         this.audiobuchService = audiobuchService;
     }
     @GetMapping(path = "{id}")
-    @Operation(summary = "Returns a specific Audiobuch")
+    @Operation(summary = "Gibt ein bestimmtes Audiobuch zurück")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-
-            @ApiResponse(responseCode = "404", description = "Audiobuch not found"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
+            @ApiResponse(responseCode = "200", description = "Audiobuch wurde gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Ausleihe.class))}),
+            @ApiResponse(responseCode = "404", description = "Audiobuch wurde nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
     })
     public Audiobuch findById(@PathVariable Integer id){
         try {
@@ -42,65 +43,63 @@ public class AudiobuchController {
     @GetMapping()
     @Operation(summary = "Returns all Audiobücher")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "Audiobuch not found"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
+            @ApiResponse(responseCode = "200", description = "Audiobuch wurde gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "Audiobuch wurde nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
     })
     public Iterable<Audiobuch> findAll(){
         try {
             return audiobuchService.findAll();
         } catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch wurde nicht gefunden");
         }
     }
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Create a Genre")
+    @Operation(summary = "Erstellt ein Audiobuch")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Genre created successfully"),
-            @ApiResponse(responseCode = "409", description = "Genre could not be created"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
+            @ApiResponse(responseCode = "201", description = "Audibuch wurde erstellt"),
+            @ApiResponse(responseCode = "409", description = "Audibuch konnte nicht erstellt werden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
+            @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
     public void insert(@RequestBody Audiobuch audiobuch){
         try {
             audiobuchService.insert(audiobuch);
         } catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Audiobuch conflict");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Audibuch konnte nicht erstellt werden");
         }
     }
     @PutMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Aktualisiert ein Audiobuch")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Audiobuch was updated successfully",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "409", description = "Audiobuch could not be updated, already exists",
-                    content = @Content),
-            @ApiResponse(responseCode = "400", description = "Validation failed",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
-    public void update(@RequestBody Audiobuch audiobuch){
+            @ApiResponse(responseCode = "204", description = "Audiobuch wurde aktualisiert"),
+            @ApiResponse(responseCode = "409", description = "Audiobuch konnte nicht aktualisiert werden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
+            @ApiResponse(responseCode = "409", description = "Benutzer konnte nicht aktualisiert werden"),
+            @ApiResponse(responseCode="400", description = "Ungültiger Request")
+    })
+    public void update(@Valid @RequestBody Audiobuch audiobuch){
         try {
             audiobuchService.update(audiobuch);
         } catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Audiobuch conflict");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Audiobuch konnte nicht aktualisiert werden");
         }
     }
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Löscht ein Audiobuch nach id")
+    @Operation(summary = "Löschet ein Audiobuch")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Audiobuch was deleted successfully",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Genre.class))}),
-            @ApiResponse(responseCode = "404", description = "Audiobuch could not be found",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Genre.class))})})
+            @ApiResponse(responseCode = "204", description = "Audiobuch wurde gelöscht"),
+            @ApiResponse(responseCode = "404", description = "Audiobuch wurde nicht gefunden"),
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
+    })
     public void deleteById(@PathVariable Integer id){
         try {
             audiobuchService.deleteById(id);
         } catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch wurde nicht gefunden");
         }
     }
 }
