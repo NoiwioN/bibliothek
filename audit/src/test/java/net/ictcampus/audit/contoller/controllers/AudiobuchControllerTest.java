@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = AudiobuchController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class AudiobuchControllerTestjulia {
+public class AudiobuchControllerTest {
     private static final String JSON_ALLE_AUDIOBUECHER = "[" +
             "{\"id\":1, \"titel\": \"Audiobuch1\", \"laenge\": 50000, \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
             "{\"id\":2, \"titel\": \"Audiobuch2\", \"laenge\": 50000, \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
@@ -55,6 +55,14 @@ public class AudiobuchControllerTestjulia {
      * geschickt werden
      * @throws Exception
      */
+    @Test
+    public void checkPost_whenNewAudiobook_thenIsOk() throws Exception{
+        mockMvc.perform(post("/audiobuecher")
+                .contentType("application/json")
+                .content("{\"id\": 99, \"titel\": \"Harry Potter and the Philosopher's Stone\", \"laenge\": 500, \"autor\": \"J.K. Rowling\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\" }, \"erscheinungsjahr\": 1997}"
+                )
+        ).andExpect(status().isCreated());
+    }
     @Test
     public void checkGet_whenValidName_thenAudiobuecherIsReturned() throws Exception {
         // gibt alle Filme aus, sobald findAll im gemockten MovieService aufgerufen wird
