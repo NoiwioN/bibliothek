@@ -2,6 +2,8 @@ package net.ictcampus.audit.model.models;
 
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class User {
     private String nachname;
     private String email;
     private String benutzername;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwort;
 
     @OneToMany(mappedBy = "user")
@@ -74,4 +77,5 @@ public class User {
     public void setAusgelieheneBucher(Set<Ausleihe> ausgelieheneBucher) {
         this.ausgelieheneBucher = ausgelieheneBucher;
     }
+
 }
