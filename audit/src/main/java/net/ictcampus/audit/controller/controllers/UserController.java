@@ -25,12 +25,14 @@ public class UserController {
     }
 
     @GetMapping(path = "{id}")
-    @Operation(summary = "Zeigt einen Benutzer an")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Returns a specific User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
 
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     public User findById(@PathVariable Integer id) {
         try {
@@ -41,11 +43,12 @@ public class UserController {
     }
 
     @GetMapping
-    @Operation(summary = "Gibt alle Benutzer zurück")
+    @Operation(summary = "Returns all Users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "404", description = "Users not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     public Iterable<User> findAll() {
         try {
@@ -56,37 +59,49 @@ public class UserController {
     }
 
     @PutMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.NO_CONTENT) //TODO Swagger
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Returns all Users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content"),
+            @ApiResponse(responseCode = "404", description = "Users not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public void update(@RequestBody User user) {
         try {
             userService.update(user);
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User could not be updated");
         }
     }
 
     @PostMapping(consumes = "application/json", path = "/sign-up")
-    @Operation(summary = "Erstellen eines Benutzers, kann auch missbraucht werden und einen vorhandenen Benutzer updaten")
+    @Operation(summary = "Creates a new User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "created"),
-            @ApiResponse(responseCode = "409", description = "Spezifische Fehlernachricht")
+            @ApiResponse(responseCode = "409", description = "User could not be created")
     })
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody User user) {
         try {
             userService.signUp(user);
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User could not be created");
         }
     }
 
     @DeleteMapping(path = "{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT) //TODO Swagger
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Deletes a User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No Content"),
+            @ApiResponse(responseCode = "404", description = "Users not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public void deleteById(@PathVariable Integer id) {
         try {
             userService.deleteById(id);
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
 }
