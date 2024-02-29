@@ -2,10 +2,8 @@ package net.ictcampus.audit.model.models;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -17,6 +15,9 @@ public class User {
     private String email;
     private String benutzername;
     private String passwort;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Ausleihe> ausgelieheneBucher;
 
     public Integer getId() {
         return id;
@@ -64,5 +65,13 @@ public class User {
 
     public void setPasswort(String passwort) {
         this.passwort = passwort;
+    }
+
+    public Set<Ausleihe> getAusgelieheneBucher() {
+        return ausgelieheneBucher;
+    }
+
+    public void setAusgelieheneBucher(Set<Ausleihe> ausgelieheneBucher) {
+        this.ausgelieheneBucher = ausgelieheneBucher;
     }
 }
