@@ -16,7 +16,7 @@ public class Audiobuch {
     private Date laenge;
     private String autor;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name="genre_id")
     private Genre genre;
 
