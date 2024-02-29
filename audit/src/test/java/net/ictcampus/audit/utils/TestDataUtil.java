@@ -25,7 +25,7 @@ public class TestDataUtil {
             audiobuch.setGenre(genre);
             audiobuecher.add(audiobuch);
         }
-        return null;
+        return audiobuecher;
     }
 }
 
