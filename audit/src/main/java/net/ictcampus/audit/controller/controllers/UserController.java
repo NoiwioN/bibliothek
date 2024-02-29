@@ -9,6 +9,7 @@ import net.ictcampus.audit.controller.services.UserService;
 import net.ictcampus.audit.model.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -65,7 +66,8 @@ public class UserController {
             @ApiResponse(responseCode = "204", description = "Der Benutzer konnte aktualisiert werden"),
             @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
-            @ApiResponse(responseCode = "409", description = "Der Benutzer konnte nicht aktualisiert werden")
+            @ApiResponse(responseCode = "409", description = "Der Benutzer konnte nicht aktualisiert werden"),
+            @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
     public void update(@Valid @RequestBody User user) {
         try {
@@ -80,10 +82,11 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Benutzer wurde erstellt"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
-            @ApiResponse(responseCode = "409", description = "Benutzer konnte nicht erstellt werden")
+            @ApiResponse(responseCode = "409", description = "Benutzer konnte nicht erstellt werden"),
+            @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@Valid @RequestBody User user) {
+    public void signUp(@Validated @RequestBody User user) {
         try {
             userService.signUp(user);
         } catch (RuntimeException e) {

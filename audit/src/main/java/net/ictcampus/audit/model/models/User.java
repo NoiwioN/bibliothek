@@ -4,8 +4,12 @@ package net.ictcampus.audit.model.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -13,11 +17,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
+
     private String vorname;
+
     private String nachname;
+
     private String email;
+    @NotBlank(message = "Benutzername darf nicht leer sein")
+    @NotNull(message = "Benutzername muss angegeben werden")
     private String benutzername;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "Passwort darf nicht leer sein")
+    @NotNull(message = "Passwort muss angegeben werden")
+    @Length(min=6,max = 255, message = "Das Passwort muss zwischen 6 und 255 Zeichen sein")
     private String passwort;
 
     @OneToMany(mappedBy = "user")

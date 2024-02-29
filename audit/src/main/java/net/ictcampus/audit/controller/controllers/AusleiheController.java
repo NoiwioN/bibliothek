@@ -64,7 +64,9 @@ public class AusleiheController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Ausleihe wurde erstellt"),
             @ApiResponse(responseCode = "409", description = "Ausleihe konnte nicht erstellt werden"),
-            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
+            @ApiResponse(responseCode="400", description = "Ungültiger Request")
+
     })
     public void insert(@Valid @RequestBody Ausleihe ausleihe) {
         try {
@@ -80,7 +82,8 @@ public class AusleiheController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Ausleihe wurde aktualisiert"),
             @ApiResponse(responseCode = "409", description = "Ausleihe konnte nicht aktualisiert werden"),
-            @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
+            @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
+            @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
 
     public void update(@Valid @RequestBody Ausleihe ausleihe) {
