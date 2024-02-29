@@ -21,13 +21,11 @@ public class Ausleihe {
     private User user;
 
 
-    @NotNull(message = "Ausleihdatum muss angegeben werden")
-    @NotBlank(message = "Ausleihdatum darf nicht leer sein")
+
     private Date ausleihdatum;
 
 
-    @NotNull(message = "Rückgabedatum muss angegeben werden")
-    @NotBlank(message = "Rückgabedatum darf nicht leer sein")
+
     private Date rueckgabedatum;
 
     public Ausleihe() {
