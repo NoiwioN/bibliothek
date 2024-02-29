@@ -1,5 +1,10 @@
 package net.ictcampus.audit.controller.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ictcampus.audit.controller.services.GenreService;
 import net.ictcampus.audit.model.models.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,12 @@ public class GenreController {
     }
 
     @GetMapping
+    @Operation(summary = "Zeigt alle Genres an")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Genres were found successfully",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
+            @ApiResponse(responseCode = "404", description = "Genres could not be found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
     public Iterable<Genre> findAll(){
         try {
             return genreService.findAll();
@@ -27,6 +38,12 @@ public class GenreController {
         }
     }
     @GetMapping(path = "{id}")
+    @Operation(summary = "Zeigt ein Genre an welches man mit seiner id suchen kann")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Genre was found successfully",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
+            @ApiResponse(responseCode = "404", description = "Genre could not be found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
     public Genre findById(@PathVariable Integer id){
         try {
             return genreService.findById(id);
@@ -36,6 +53,12 @@ public class GenreController {
     }
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Erstellt ein Genre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Genre was created successfully",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
+            @ApiResponse(responseCode = "409", description = "Genre could not be created, already exists",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
     public void insert(@RequestBody Genre genre){
         try {
             genreService.insert(genre);
@@ -45,6 +68,14 @@ public class GenreController {
     }
     @PutMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Aktualisiert ein Genre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Genre was updated successfully",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
+            @ApiResponse(responseCode = "409", description = "Genre could not be updated, already exists",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Validation failed",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
     public void update(@RequestBody Genre genre){
         try {
             genreService.update(genre);
@@ -54,6 +85,12 @@ public class GenreController {
     }
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Löscht ein Genre nach seiner id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Genre was deleted successfully",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))}),
+            @ApiResponse(responseCode = "404", description = "Genre could not be found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Genre.class))})})
     public void deleteById(@PathVariable Integer id){
         try {
             genreService.deleteById(id);
