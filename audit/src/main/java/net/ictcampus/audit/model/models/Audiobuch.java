@@ -2,6 +2,7 @@ package net.ictcampus.audit.model.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Audiobuch {
@@ -18,6 +19,9 @@ public class Audiobuch {
     private Genre genre;
 
     private Integer erscheinungsjahr;
+
+    @OneToMany(mappedBy = "audiobuch")
+    private List<Ausleihe> ausleihen;
 
     public Audiobuch() {
     }
