@@ -3,6 +3,7 @@ package net.ictcampus.audit.model.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Audiobuch {
     private Integer id;
 
     private String titel;
-    private Date laenge;
+    private Integer laenge;
     private String autor;
 
     @ManyToOne
@@ -45,11 +46,11 @@ public class Audiobuch {
         this.titel = titel;
     }
 
-    public Date getLaenge() {
+    public Integer getLaenge() {
         return laenge;
     }
 
-    public void setLaenge(Date laenge) {
+    public void setLaenge(Integer laenge) {
         this.laenge = laenge;
     }
 

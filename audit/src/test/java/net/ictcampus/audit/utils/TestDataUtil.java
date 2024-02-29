@@ -20,7 +20,10 @@ public class TestDataUtil {
             Audiobuch audiobuch= new Audiobuch();
             audiobuch.setId(i);
             audiobuch.setTitel("Audiobuch"+i);
-           // audiobuch.setLaenge();
+            audiobuch.setLaenge(50000);
+            genre.getAudiobuecher().add(audiobuch);
+            audiobuch.setGenre(genre);
+            audiobuecher.add(audiobuch);
         }
         return null;
     }

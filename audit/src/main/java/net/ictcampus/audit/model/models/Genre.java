@@ -15,7 +15,7 @@ public class Genre {
     private String name;
     @OneToMany(mappedBy = "genre")
     @JsonBackReference
-    private Set<Audiobuch> movies = new HashSet<>();
+    private Set<Audiobuch> audiobuecher = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -31,5 +31,13 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Audiobuch> getAudiobuecher() {
+        return audiobuecher;
+    }
+
+    public void setAudiobuecher(Set<Audiobuch> audiobuecher) {
+        this.audiobuecher = audiobuecher;
     }
 }
