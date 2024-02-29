@@ -1,9 +1,11 @@
 package net.ictcampus.audit.model.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Genre {
     @Id
@@ -11,6 +13,9 @@ public class Genre {
     private Integer id;
 
     private String name;
+    @OneToMany(mappedBy = "genre")
+    @JsonBackReference
+    private Set<Audiobuch> movies = new HashSet<>();
 
     public Integer getId() {
         return id;
