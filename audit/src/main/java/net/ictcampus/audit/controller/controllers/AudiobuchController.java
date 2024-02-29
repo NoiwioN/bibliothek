@@ -63,7 +63,7 @@ public class AudiobuchController {
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert"),
             @ApiResponse(responseCode="400", description = "Ungültiger Request")
     })
-    public void insert(@RequestBody Audiobuch audiobuch){
+    public void insert(@Valid @RequestBody Audiobuch audiobuch){
         try {
             audiobuchService.insert(audiobuch);
         } catch (RuntimeException e){
