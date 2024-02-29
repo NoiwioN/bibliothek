@@ -19,7 +19,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/audiobücher")
+@RequestMapping("/audiobuecher")
 public class AudiobuchController {
     private final AudiobuchService audiobuchService;
     @Autowired
