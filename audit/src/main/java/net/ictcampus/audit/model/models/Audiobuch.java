@@ -1,5 +1,7 @@
 package net.ictcampus.audit.model.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,7 @@ public class Audiobuch {
     private Integer erscheinungsjahr;
 
     @OneToMany(mappedBy = "audiobuch")
+    @JsonBackReference
     private List<Ausleihe> ausleihen;
 
     public Audiobuch() {
