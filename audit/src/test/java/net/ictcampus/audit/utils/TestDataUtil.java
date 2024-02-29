@@ -22,6 +22,7 @@ public class TestDataUtil {
             audiobuch.setTitel("Audiobuch"+i);
             audiobuch.setLaenge(50000);
             genre.getAudiobuecher().add(audiobuch);
+            audiobuch.setAutor("Hallo");
             audiobuch.setGenre(genre);
             audiobuecher.add(audiobuch);
         }

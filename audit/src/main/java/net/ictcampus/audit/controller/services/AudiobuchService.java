@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -31,5 +33,10 @@ public class AudiobuchService {
     }
     public void deleteById(Integer id){
         audiobuchRepository.deleteById(id);
+    }
+
+    public Audiobuch findByName(String titel) {
+        Optional<Audiobuch> audiobuch= audiobuchRepository.findAudiobuchByTitel(titel);
+        return audiobuch.orElseThrow(EntityNotFoundException::new);
     }
 }

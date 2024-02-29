@@ -25,6 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new org.springframework.security.core.userdetails.User(user.getBenutzername(), user.getPasswort(),
-                emptyList()); //TODO richtiger Import ?
+                emptyList());
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.TimeZone;
 
+import static net.ictcampus.audit.utils.TestDataUtil.getTestAudiobuecher;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.TimeZone;
 
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,9 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class AudiobuchControllerTestM {
     private static final String JSON_ALL_MOVIES = "[" +
-            "{\"id\":1, \"name\": \"Audiobuch1\", \"duration\": \"50000\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
-            "{\"id\":2, \"name\": \"Audiobuch2\", \"duration\": \"50000\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
-            "{\"id\":3, \"name\": \"Audiobuch3\", \"duration\": \"50000\", \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}]";
+            "{\"id\":1, \"titel\": \"Audiobuch1\", \"laenge\": 50000, \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
+            "{\"id\":2, \"titel\": \"Audiobuch2\", \"laenge\": 50000, \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}, " +
+            "{\"id\":3, \"titel\": \"Audiobuch3\", \"laenge\": 50000, \"genre\": { \"id\": 1, \"name\": \"Fantasy\"}}]";
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,4 +72,5 @@ public class AudiobuchControllerTestM {
                 )
         ).andExpect(status().isCreated());
     }
-}
+
+    }
