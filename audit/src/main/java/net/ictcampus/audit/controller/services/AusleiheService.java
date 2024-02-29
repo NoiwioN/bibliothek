@@ -41,4 +41,8 @@ public class AusleiheService {
     public void insert(Ausleihe ausleihe) {
         ausleiheRepository.save(ausleihe);
     }
+
+    public void deleteById(Integer id) {
+        ausleiheRepository.deleteById(id);
+    }
 }

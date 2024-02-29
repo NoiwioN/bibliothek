@@ -56,5 +56,14 @@ public class AusleiheController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Ausleihe konnte nicht aktualisiert werden");
         }
     }
+    @DeleteMapping(path="{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Integer id) {
+        try {
+            ausleiheService.deleteById(id);
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ausleihe wurde nicht gefunden");
+        }
+    }
 
 }

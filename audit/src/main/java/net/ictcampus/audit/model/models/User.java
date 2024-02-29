@@ -2,6 +2,7 @@ package net.ictcampus.audit.model.models;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class User {
     private String passwort;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private Set<Ausleihe> ausgelieheneBucher;
 
     public Integer getId() {
