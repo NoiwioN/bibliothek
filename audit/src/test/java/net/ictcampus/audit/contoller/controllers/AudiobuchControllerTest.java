@@ -64,7 +64,7 @@ public class AudiobuchControllerTest {
         ).andExpect(status().isCreated());
     }
     @Test
-    public void checkGet_whenValidName_thenAudiobuecherIsReturned() throws Exception {
+    public void checkGet_whenFindAll_AudiobuecherAreReturned() throws Exception {
         // gibt alle Filme aus, sobald findAll im gemockten MovieService aufgerufen wird
         doReturn(getTestAudiobuecher()).when(audiobuchService).findAll();
 
