@@ -1,0 +1,257 @@
+
+Inhalt
+HTTPS	2
+kennen die wichtigsten Fachbegriffe des HTTP-Protokoll	2
+können die vier wichtigsten Request-Methoden erklären und unterscheiden	2
+können die wichtigsten Status-Code anhand ihrer Nummer erkennen und interpretieren	2
+(Rest)-API	3
+wissen was API bedeutet	3
+kennen den Ablauf eines Requests von Client bis zur Datenbank	3
+Rest-API	3
+MVC	3
+wissen was MVC bedeutet	3
+kennen die wesentlichen Punkte für Model, View und Controller und können deren Einsatzzweck erklären	3
+SpringBoot	4
+wissen was Spring Boot ist	4
+wissen für was Spring Boot eingesetzt wird	4
+können ein Spring Boot Projekt erstellen	4
+Gradle	4
+kennen die Funktion eines Buildtools (Gradle)	4
+können Gradle einsetzen, um Ihr Projekt und Tests auszuführen	4
+Backend-Theorie	4
+kennen den Aufbau eines Backends mit Layer-Prinzip	4
+wissen welche Architektur Prinzipien den Aufbau eines Backends beeinflussen	4
+Ausnahmefälle Backend	5
+können durch Queries Daten aus der Datenbank auslesen	5
+wissen was JPA ist und wie wir Queries damit schreiben	5
+kennen die Technologie Hibernate	5
+Annotations und Validierung	5
+verstehen den Zweck hinter Annotations	5
+können selbstständig Annotations einsetzen	6
+wissen was hinter dem Begriff Validation steckt	6
+können Validation im Rahmen von Spring Boot einsetzen	6
+verstehen den Umgang mit Exceptionhandling	6
+
+
+HTTPS
+kennen die wichtigsten Fachbegriffe des HTTP-Protokoll
+•	Webserver
+o	Liefert Dokumente an Client aus
+o	Zugriffsbeschränkung
+o	Sicherheit
+o	Log-Dateien
+o	Caching
+•	Anfrage (Request)
+•	Antwort (Response)
+•	URL (Uniform Resource Locator)
+•	URI (Uniform Resource Identifier)
+•	URN (Uniform Resource Name)
+•	http-paket
+o	Header
+	Metainformationen
+	Dateiformat
+	Zeichenkodierung
+	Authentification
+o	Body
+
+können die vier wichtigsten Request-Methoden erklären und unterscheiden
+•	Request Methods
+o	Post
+Post wird verwendet, um eine Datei zu erstellen auf den Webserver
+o	Get
+Wird verwenden, um eine Ressource zu lesen
+o	Put
+Wird verwendet, um eine Ressource zu aktualisieren
+o	Delete
+Wird verwendet, um eine Ressource zu löschen
+können die wichtigsten Status-Code anhand ihrer Nummer erkennen und interpretieren
+•	StatusCodes
+o	1xx Information
+o	2xx Erfolgreiche Abfrage
+	200 OK
+	201 Created
+o	3xx Umleitung
+	301 Moved Permanently
+	302 Found
+	304 Not Modified
+o	4xx Client Fehler
+	400 Bad Request
+	401 Unathorized
+	403 Forbidden
+	404 Not Found
+o	5xx Server-Fehler
+	500 Internal Server Error
+	Service Unavailable
+(Rest)-API
+wissen was API bedeutet
+API steht für Application Programming Interface
+
+kennen den Ablauf eines Requests von Client bis zur Datenbank
+1.	Der User macht über die View eine Anfrage
+2.	Die View leitet die Anfrage an die API weiter
+3.	Die API leitet die Anfrage an den Webserver weiter
+4.	Der Webserver setzt die Umfrage an der Datenbank um
+5.	Die Response wird auf umgekehrten weg an den User gesendet
+Rest-API
+•	Representational State transfer
+•	Bestimmt, in welchem Format die Daten gesendet werden (JSON)
+•	Deckt die CRUD-Operationen ab.
+•	Jeder Request muss sämtliche Informationen für die Abfrage beinhalten (Stateless)
+•	Zugriff durch Oauth oder JWT geregelt
+MVC
+wissen was MVC bedeutet
+Steht für Model-View-Controller und ist ein Paradigma, zur Organisierung von Softare
+Logik, Daten und GUI werden getrennt
+Ziel ist ein Flexibler Programmentwurf, der problemlos angepasst und erweitert werden kann
+kennen die wesentlichen Punkte für Model, View und Controller und können deren Einsatzzweck erklären
+Eine API besteht im Wesentlichen aus einem Model und Controller finden sich im Backend und werden unter SpringBoot weiter unterteilt in
+Controller ->
+•	Controller @Controller
+•	Service @Service
+o	Hier wird die Logik gehandhabt
+o	Beinhaltet die Logik und wird von @Controller aufgerufen
+Model ->
+•	Model @Entity
+o	Repräsentiert eine Entität in der SQL-Datenbank
+•	CRUD Repository @Repository
+o	Beinhaltet die Queries und wird in Service aufgerufen
+o	Ist ein Interface und keine Klase
+o	Implements Crud
+SpringBoot
+wissen was Spring Boot ist
+Ist ein Java-basiertes Framework
+Verwendet für Web-Anwendungen
+Ist eine Erweiterung von Spring
+wissen für was Spring Boot eingesetzt wird
+Springboot wird eingesetzt, um die Entwicklung von Web-Anwendungen zu vereinfachen
+können ein Spring Boot Projekt erstellen
+boot.spring.in
+Gradle
+kennen die Funktion eines Buildtools (Gradle)
+Wird verwendet, um die Abhängigkeiten einer Anwendung zu sammeln, damit die Konfigurationen unitär sind und so die Anwendungen auf verschiedenen Umgebungen problemlos laufen können.
+können Gradle einsetzen, um Ihr Projekt und Tests auszuführen
+Backend-Theorie
+kennen den Aufbau eines Backends mit Layer-Prinzip
+Model
+Beinhaltet Model und Repository
+Controller beinhalte Service und Controller
+wissen welche Architektur Prinzipien den Aufbau eines Backends beeinflussen
+MV beeinflusst die Architektur insofern, dass für jede Entität jeweils 3 Klasse, ein Controller, ein Service und ein Model und noch ein Interface, das Repository, erstellt werden.
+Dies dient dazu, die Logik, Daten und Datenbankzugriffe voneinander zu trennen.
+•	Controller
+o	Erhält Requests und sendet Responses
+o	Keine Logik ausser Exceptionhandling, Validierung und Weiterleitung (Validierung durch @Valid
+o	Invalide Request werden zurück an den User verwiesen
+o	Valide Request werden mit @ResponseStatus(HttpStatus.[Status]
+•	Service
+o	Verbindung zwischen Controller und Repository
+o	Erhält nur validierte Requests
+o	Enthält die Logik des Backends
+•	Repository
+o	Schnittstelle Backend und Datenbank
+o	Keine Fehlerüberprüfung
+•	Entity
+o	Repräsentation der Entität in der DB
+o	Attribute entsprechen den Attributen der Entität
+Einige Validation-Annotations:
+@NotBlank
+@NotNull
+@Length
+@Size(min, max)
+Ausnahmefälle Backend
+können durch Queries Daten aus der Datenbank auslesen
+
+wissen was JPA ist und wie wir Queries damit schreiben
+Jakarta/Java Persistency Annotation
+Daten persistieren Applikation-> Datenbank
+JPA ist eine Spezifikation, keine Technologie
+Also ein Regelwerk, wie Daten persistiert werden sollen und nicht selbst verantwortlich für die Persistierung von Dataten
+
+kennen die Technologie Hibernate
+ORM-Framework (Object Relational Mapping)
+Datenkonvertierung zwischen OOP-Sprachen und RDB
+Ein Tool, das JPA implementiert, also nun die Persitierung von Daten verwaltet.
+Speichert unabhängig von der API Daten
+Bildet Java-Klasen (also unsere Entitäten) auf Entitäten in der Datenbank ab und konvertiert die Datentypen entsprechend.
+@Query(«Query :Param)
+[return Type] [functionName] ([@Param(«[paramName]» [Datatype] [ParamName])
+Annotations und Validierung
+verstehen den Zweck hinter Annotations
+Werden verwendet, um Metadaten in den Quellcode einzubinden
+können selbstständig Annotations einsetzen
+@GetMapping
+@PostMapping
+@PutMapping
+@DeleteMapping
+@RequestParam
+wissen was hinter dem Begriff Validation steckt
+Abgleichen eines Inputs auf den Standard, der innerhalb einer Applikation gesetzt wurde
+können Validation im Rahmen von Spring Boot einsetzen
+@Valid vor @RequestBody
+Und dann Limitierungen in der Entity setzten
+verstehen den Umgang mit Exceptionhandling
+Baum:
+•	Throwable
+o	Exception
+	RunTimeException
+•	Unechecked Exception
+•	Müssen nicht immer behandelt werden und sind eine Folge von unsauberem programmieren
+o	NullPointer Exception
+o	ArrayIndexOutOfBounds
+o	ClassCast
+o	Arithemtic
+	IOException
+•	Checked-Exception
+•	Müssen behandelt werden
+•	Eigene Exceptions erben
+o	IOException
+o	FileNotFound
+o	SQLException
+o	Error
+	Abnormales Verhalten, das mit der JVM in Verbindung steht
+
+Try and catch the shit 😊
+JWT
+kennen den Unterschied zwischen Authorization und Authentication
+Authorisation ist die Rollen und Rechtevergabe für einen Client
+Authentication ist die Idenfikation des Clients
+wissen was Spring Security ist und kennen dessen Zweck
+Spring Security ist ein Framework für die Anwendungssicherheit
+Es bietet Funktionen zur Authentifizierung, Autorisierung und Zugriffskontrolle.
+wissen was ein JSON Web Token ist
+JSON Web Token
+•	Transferiert informationen zwischen zwei Instanzen
+•	Digitale Signatur
+Aufbau
+•	Header
+o	Token Type
+o	Verschlüsslungsalgorithmus
+•	Payload
+o	JSON
+•	Signature
+o	Encoded header
+o	Encoded Payload
+o	Encoded secret Key
+Ablauf
+1.	Client meldet sich an
+2.	Authentifikations-Service überprüft Eingabe und stellt ein JWT aus und sendet dieses an den Client
+3.	Client gibt bei API-Calls sein JWT mit
+4.	Der API-Service überprüft das JWT bevor er Anfrage bearbeitet
+
+kennen die wichtigsten Sicherheitsmassnahmen im Umgang mit Eingabedaten
+1.	Validierung und Sanierung der Eingabedaten
+2.	Authentifizierung und Autorisierung
+3.	Verschlüsselung
+4.	Logging und Überwachung
+Open API & Swagger
+kennen Sinn und Zweck von Swagger
+Swagger dient in unserem Umfeld dazu, eine OpenAPI-Spezifikation entsprechende Dokumentation unserer API zu schreiben.
+Die wird Annotations ermöglicht und es ist gleich möglich, ein HTML zu generieren.
+kennen die wichtigsten Spring-Boot Annotations, welche das Generieren einer OpenAPI Specification ermöglichen
+@Operation(summary= «what does it do»)
+@APIResponse(value={@APIRESPONE, @APIResponse})
+@APIResponse( responseCode=[someResponseCode} ,description= «some Mesage», content={@Content(mediaType= «application/json», schema=@Schema(implementation=[Entity].class))})
+können Swagger-UI in ein Spring-Bot-Projekt integrieren.
+Im Grade:
+implementation 'org.springdoc:springdoc-openapi-ui:1.6.14‘
+

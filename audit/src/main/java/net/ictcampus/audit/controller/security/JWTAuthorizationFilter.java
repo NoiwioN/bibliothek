@@ -27,7 +27,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     1. Der Authentifizierungsheader wird überprüft
     2. Das Authentifikationsobjekt für den User wird erstellt
     3. Im SecurityContext wird das AuthentifikationsObjekt gespeichert
-    4. chain.doFilter kette wird fortgesetzt.
+    4. chain.doFilter Kette wird fortgesetzt.
      */
 
     @Override
