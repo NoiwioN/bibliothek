@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 public class Audiobuch {
+    //Primary Id’s werden automatisch von der Datenbank generiert und dürfen nicht gesetzt werden.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,6 +18,8 @@ public class Audiobuch {
     private Integer laenge;
     private String autor;
 
+    //Die beiden Models bzw. Entitäten stehen in der Datenbank in einer Beziehung
+    // Bei der Ausgabe eines Audiobuches erhalten wir das dazugehörige genre und bei der Ausgabe eines Genres erhalten wir ein Set an Audiobuecher
     @ManyToOne
     @JoinColumn(name="genre_id")
     private Genre genre;

@@ -18,7 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "users")
+@RequestMapping(path = "/users")
 public class UserController {
     private final UserService userService;
 

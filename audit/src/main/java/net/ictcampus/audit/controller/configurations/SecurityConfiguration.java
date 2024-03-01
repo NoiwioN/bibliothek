@@ -31,6 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    // Alle URLs werden gespert nur Sign-up mit der Post methode ist immer erlaubt und alle Swagger Dokumentations URLs
+    // Wenn man dann Authentifiziert ist werden die anderen freigeschalten
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()

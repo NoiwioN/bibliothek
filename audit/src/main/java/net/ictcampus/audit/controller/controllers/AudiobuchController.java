@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-
+//Mithilfe von @RequestMapping("") können wir die URL für jeden Controller definieren.
 @RestController
 @RequestMapping("/audiobuecher")
 public class AudiobuchController {
@@ -41,7 +41,7 @@ public class AudiobuchController {
         }
     }
     @GetMapping()
-    @Operation(summary = "Returns all Audiobücher")
+    @Operation(summary = "Gibt alle Audiobücher zurück")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Audiobuch wurde gefunden", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "404", description = "Audiobuch wurde nicht gefunden"),
@@ -54,6 +54,8 @@ public class AudiobuchController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Audiobuch wurde nicht gefunden");
         }
     }
+    //Der consumes = "application/json" wird angegeben da wir für diese methode zusätzlich noch einen RequestBody erwarten,
+    // müssen wir zusätzlich angeben, dass wir ein json akzeptieren bei einem Request
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Erstellt ein Audiobuch")

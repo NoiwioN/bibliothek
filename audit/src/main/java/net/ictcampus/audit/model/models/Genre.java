@@ -13,6 +13,10 @@ public class Genre {
     private Integer id;
 
     private String name;
+    //Die beiden Models bzw. Entitäten stehen in der Datenbank in einer Beziehung
+    // Bei der Ausgabe eines Audiobuches erhalten wir das dazugehörige genre und bei der Ausgabe eines Genres erhalten wir ein Set an Audiobuecher
+    //JsonBackReference kümmert sich darum, das bei der Ausgabe eines Genres nicht das Problem auftaucht,
+    // dass ein Genre Audiobuecher enthält, Audiobuecher wiederum Genres und diese wieder Audiobuecher, etc. Wir unterbinden somit eine Endlosschlaufe bei der Ausgabe.
     @OneToMany(mappedBy = "genre")
     @JsonBackReference
     private Set<Audiobuch> audiobuecher = new HashSet<>();
