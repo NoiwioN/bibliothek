@@ -17,6 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    //Beuntername wird in der Datenbank gesucht wenn er existiert wird der Beutzername mit passwort zurück gegeben
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByBenutzername(username);

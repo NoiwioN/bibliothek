@@ -3,6 +3,8 @@ package net.ictcampus.audit.model.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +13,8 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @NotBlank(message = "Name darf nicht leer sein")
+    @NotNull(message = "Name muss angegeben werden")
     private String name;
     //Die beiden Models bzw. Entitäten stehen in der Datenbank in einer Beziehung
     // Bei der Ausgabe eines Audiobuches erhalten wir das dazugehörige genre und bei der Ausgabe eines Genres erhalten wir ein Set an Audiobuecher

@@ -41,6 +41,7 @@ public class UserService {
         throw new RuntimeException("User doesn't exist");
     }
 
+    //passwort wird verschlüsselt in der Datenbank gespeichert
     public void signUp(User user) {
         user.setPasswort(bCryptPasswordEncoder.encode(user.getPasswort()));
         userRepository.save(user);
