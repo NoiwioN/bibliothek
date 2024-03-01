@@ -28,6 +28,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
+    //Benutzerdaten werden entgegengenommen und es wird versucht, die Authentifikation vorzunehmen.
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
@@ -45,6 +46,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
+    //Methode wird nach attemptAuthentication ausgeführt und erstellt ein JWT-Token
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
