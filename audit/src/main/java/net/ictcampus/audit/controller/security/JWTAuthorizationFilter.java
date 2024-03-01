@@ -21,6 +21,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         super(authManager);
     }
 
+    //Diese Methode überprüft, ob eine HTTP-Anfrage ein spezifisches Authentifizierungs-Token im Header enthält
+    //und setzt die Authentifizierungsinformationen im Sicherheitskontext, falls vorhanden
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
@@ -36,7 +38,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
-
+    // nimmt den Token auseinander um die Informationen vom Token herauszulesen
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {

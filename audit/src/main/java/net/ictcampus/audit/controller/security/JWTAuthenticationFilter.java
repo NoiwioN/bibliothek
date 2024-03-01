@@ -26,7 +26,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
-
+    // Deine Benutzeranmeldeinformationen werden versucht zu authendifizieren
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
@@ -44,6 +44,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    //Wenn man sich nun anmeldet wird dein Token erstellt
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
