@@ -29,7 +29,6 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Passwort darf nicht leer sein")
     @NotNull(message = "Passwort muss angegeben werden")
-    @Length(min=6,max = 255, message = "Das Passwort muss zwischen 6 und 255 Zeichen sein")
     private String passwort;
 
     @OneToMany(mappedBy = "user")
