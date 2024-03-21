@@ -29,6 +29,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User  getUserByUsername(String userName){
+        return userRepository.findUserByBenutzername(userName);
+    }
+
     public void update(User user) {
         Iterable<User> users = findAll();
         for (User u : users) {

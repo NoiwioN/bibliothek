@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -50,12 +51,24 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Benutzer wurde nicht gefunden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
     })
-    public Iterable<User> findAll() {
-        try {
-            return userService.findAll();
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benutzer wurde nicht gefunden");
+    public Iterable<User> findAll(@RequestParam(required = false) String username) {
+        if(username !=null){
+            try {
+                User user = userService.getUserByUsername(username);
+                ArrayList<User> u=new ArrayList<>();
+                u.add(user);
+                return u;
+            } catch (EntityNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benutzer wurde nicht gefunden");
+            }
+        }else{
+            try {
+                return userService.findAll();
+            } catch (EntityNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benutzer wurde nicht gefunden");
+            }
         }
+
     }
 
     @PutMapping(consumes = "application/json")
@@ -75,6 +88,10 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Benutzer konnte nicht aktualisiert werden");
         }
     }
+//    @GetMapping(path = "/username/{username}")
+//    public User getUserByUsername(@PathVariable String username){
+//
+//    }
 
     @PostMapping(consumes = "application/json", path = "/sign-up")
     @Operation(summary = "Erstellt einen neuen Benutzer")
