@@ -16,8 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static net.ictcampus.audit.controller.security.SecurityConstants.API_DOCUMENTATION_URLS;
-import static net.ictcampus.audit.controller.security.SecurityConstants.SIGN_UP_URL;
+import static net.ictcampus.audit.controller.security.SecurityConstants.*;
 
 
 @Configuration
@@ -37,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.GET, API_DOCUMENTATION_URLS).permitAll()
+                .antMatchers(HttpMethod.GET, READS).permitAll()
                 //Filter auf allen nicht frei erlaubten Pfaden
                 .anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))

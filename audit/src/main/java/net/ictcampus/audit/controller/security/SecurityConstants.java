@@ -14,6 +14,9 @@ public class SecurityConstants {
             "/swagger-ui.html",
             "/swagger-ui/**"
     };
+    public static final String [] READS ={
+            "/**"
+    };
 
 }
 
