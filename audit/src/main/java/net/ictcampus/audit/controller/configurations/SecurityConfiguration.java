@@ -40,6 +40,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .anyRequest().permitAll();
     }
+/*    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable().authorizeRequests().anyRequest().permitAll();
+    }*/
 
     // Dein mitgegebenes Passwort wird gehasht
     @Override
