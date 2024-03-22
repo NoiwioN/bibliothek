@@ -16,9 +16,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static net.ictcampus.audit.controller.security.SecurityConstants.API_DOCUMENTATION_URLS;
+import java.util.Arrays;
+
 import static net.ictcampus.audit.controller.security.SecurityConstants.FORTESTONLYPLEASEDELETEMEVERYIMPORTANT;
-import static net.ictcampus.audit.controller.security.SecurityConstants.SIGN_UP_URL;
+import static net.ictcampus.audit.controller.security.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -37,13 +38,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // Wenn man dann Authentifiziert ist werden die anderen freigeschalten
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests()
-                .anyRequest().permitAll();
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.GET, API_DOCUMENTATION_URLS).permitAll()
+                .antMatchers(HttpMethod.GET, READS).permitAll()
+                //Filter auf allen nicht frei erlaubten Pfaden
+                .anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                // this disables session creation on Spring Security
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-/*    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests().anyRequest().permitAll();
-    }*/
 
     // Dein mitgegebenes Passwort wird gehasht
     @Override
@@ -52,9 +55,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Erlaubt Origins nur von localhost:3000
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Erlaubt HTTP-Methoden
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Erlaubt Header
+        configuration.setAllowCredentials(true); // Erlaubt Cookies
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Anwendung der Konfiguration auf alle Pfade
         return source;
     }
 }

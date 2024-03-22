@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +45,9 @@ public class AusleiheService {
 
     public void deleteById(Integer id) {
         ausleiheRepository.deleteById(id);
+    }
+
+    public Iterable<Ausleihe> findAusleiheByUserId(Integer id){
+        return ausleiheRepository.findAusleiheByUserId(id);
     }
 }

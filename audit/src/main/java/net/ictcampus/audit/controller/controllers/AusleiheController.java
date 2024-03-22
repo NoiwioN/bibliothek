@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(path = "/ausleihen")
@@ -48,7 +49,14 @@ public class AusleiheController {
             @ApiResponse(responseCode = "404", description = "Ausleihen wurden nicht gefunden"),
             @ApiResponse(responseCode = "403", description = "Nicht autorisiert")
     })
-    public Iterable<Ausleihe> findAll() {
+    public Iterable<Ausleihe> findAll(@RequestParam(required = false) Integer userId) {
+        if(userId!=null){
+            try {
+                return ausleiheService.findAusleiheByUserId(userId);
+            } catch (EntityNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ausleihen wurden nicht gefunden");
+            }
+        }
         try {
             return ausleiheService.findAll();
         } catch (EntityNotFoundException e) {
